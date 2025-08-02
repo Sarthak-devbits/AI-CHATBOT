@@ -24,15 +24,14 @@ async function createChatCompletion() {
     role: "assistant",
     content: response.choices[0].message.content,
   });
-  console.log(getContextLength());
   if (
     response &&
     response?.usage &&
     response?.usage?.total_tokens > MAX_TOKENS
   ) {
-    console.log("yes");
     deleteOlderMessages();
   }
+  console.log(`Assistant: ${response.choices[0].message.content}`);
 }
 
 function deleteOlderMessages() {
@@ -67,7 +66,6 @@ function getContextLength() {
 
 process.stdin.addListener("data", async function (data) {
   const userInput = data.toString().trim();
-  console.log(context);
   context.push({
     role: "user",
     content: userInput,
